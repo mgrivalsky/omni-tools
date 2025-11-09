@@ -29,12 +29,18 @@ export default function ConvertToPdf({ title }: ToolComponentProps) {
 
   const compute = async (values: FormValues) => {
     if (!input) return;
+
+    const t0 = performance.now(); // ⏱️ začiatok
     const { pdfFile, imageSize } = await buildPdf({
       file: input,
       pageType: values.pageType,
       orientation: values.orientation,
       scale: values.scale
     });
+    const t1 = performance.now(); // ⏱️ koniec
+
+    console.log('buildPdf took', (t1 - t0).toFixed(2), 'ms');
+
     setResult(pdfFile);
     setImageSize(imageSize);
   };
